@@ -6,8 +6,20 @@ package mr
 // remember to capitalize all names.
 //
 
-import "os"
-import "strconv"
+import (
+	"os"
+	"strconv"
+)
+
+type Error struct {
+	err_msg string
+}
+
+func (e Error) Error() string {
+	return e.err_msg
+}
+
+
 
 //
 // example to show how to declare the arguments
@@ -24,6 +36,25 @@ type ExampleReply struct {
 
 // Add your RPC definitions here.
 
+// RequestJob
+// worker to coordinator
+type RequestJobReply struct {
+	Task interface{}
+}
+
+type QueryJobStatusArgs struct {
+	TaskType bool // 0 for Map, 1 for Reduce
+	TaskId int
+}
+
+type UpdateJobStatusArgs struct {
+	TaskType bool // 0 for Map, 1 for Reduce
+	TaskId int
+	Status int
+}
+
+
+
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.
@@ -34,3 +65,4 @@ func coordinatorSock() string {
 	s += strconv.Itoa(os.Getuid())
 	return s
 }
+
